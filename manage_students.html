@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Students</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="manage_students" href="manage_students.js">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            background: url('images/hero.png') no-repeat center center fixed;
+            background-size: cover;
+            color: white;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            z-index: -1;
+        }
+
+        .back-arrow {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 24px;
+            color: #4db8ff;
+            text-decoration: none;
+            padding: 10px;
+            border-radius: 50%;
+            transition: 0.3s;
+        }
+
+        .back-arrow:hover {
+            background: rgba(255, 255, 255, 0.2);
+            color: #00aaff;
+            transform: scale(1.1);
+        }
+
+        .table-container {
+            width: 90%;
+            max-width: 1200px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            border-radius: 12px;
+            margin: auto;
+            box-shadow: 0 4px 15px rgba(0, 170, 255, 0.3);
+        }
+
+        .data-table th {
+            background: rgba(0, 170, 255, 0.3);
+            color: white;
+            text-transform: uppercase;
+        }
+
+        .data-table tbody tr:hover {
+            background: rgba(0, 170, 255, 0.15);
+            transition: 0.3s;
+        }
+
+        .loading-text {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.7);
+            text-align: center;
+            padding: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <a href="faculty_dashboard.html" class="back-arrow">⟵</a>
+
+    <div class="container mt-4">
+        <h3 class="text-center text-primary">Students Enrolled in <span id="subjectName"></span></h3>
+        <div class="table-container mt-3">
+            <!-- Search Bar -->
+    <input type="text" id="searchInput" class="form-control my-3" placeholder="Search students by name...">
+            <table class="table table-dark table-hover data-table">
+                <thead>
+                    <tr>
+                        <th>Student Name</th>
+                        <th>Roll No</th>
+                        <th>Semester</th>
+                        <th>Attendance (%)</th>
+                        <th>Marks</th>
+                    </tr>
+                </thead>
+                <tbody id="studentList">
+                    <tr><td colspan="5" class="loading-text">Loading students...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+       document.addEventListener("DOMContentLoaded", function () {
+    function getQueryParam(param) {
+        return new URLSearchParams(window.location.search).get(param);
+    }
+
+    const subjectName = getQueryParam("subject_name");
+    if (subjectName) {
+        document.getElementById("subjectName").innerText = decodeURIComponent(subjectName);
+    }
+
+    function loadStudentsBySubject() {
+        const subject_id = getQueryParam("subject_id");
+
+        if (!subject_id) {
+            document.getElementById("studentList").innerHTML = 
+                "<tr><td colspan='5' style='color: red;'>Subject ID is missing!</td></tr>";
+            return;
+        }
+
+        fetch(`/academicHUB/backend/fetch_students_by_subject.php?subject_id=${subject_id}`)
+            .then(response => response.json())
+            .then(data => {
+                let studentTable = document.getElementById("studentList");
+                studentTable.innerHTML = "";
+
+                if (Array.isArray(data) && data.length > 0) {
+                    data.forEach(student => {
+                        let row = document.createElement("tr");
+                        row.innerHTML = `
+                            <td>${student.name || "N/A"}</td>
+                            <td>${student.roll_number || "N/A"}</td>
+                            <td>Semester ${student.semester || "N/A"}</td>
+                            <td>
+                                <input type="number" class="form-control" min="0" max="100" 
+                                       id="attendance_${student.student_id}" 
+                                       value="${student.attendance_percentage || ''}" placeholder="Enter %"
+                                       oninput="autoSaveAttendance(${student.student_id}, ${subject_id})">
+                            </td>
+                            <td>
+                                <a href="enter_marks.html?student_id=${student.student_id}&subject_id=${subject_id}" 
+                                   class="btn btn-sm btn-primary">Enter Marks</a>
+                            </td>
+                        `;
+                        studentTable.appendChild(row);
+                    });
+                } else {
+                    studentTable.innerHTML = "<tr><td colspan='5' style='color: yellow;'>No students found.</td></tr>";
+                }
+            })
+            .catch(() => {
+                document.getElementById("studentList").innerHTML = 
+                    "<tr><td colspan='5' style='color: red;'>Error loading students.</td></tr>";
+            });
+    }
+
+    loadStudentsBySubject();
+});
+
+let attendanceTimeouts = {};
+function autoSaveAttendance(student_id, subject_id) {
+    const input = document.getElementById(`attendance_${student_id}`);
+    let attendance = parseInt(input.value);
+
+    if (isNaN(attendance) || attendance < 0 || attendance > 100) {
+        alert("Attendance must be between 0-100%");
+        input.value = "";
+        return;
+    }
+
+    clearTimeout(attendanceTimeouts[student_id]);
+    attendanceTimeouts[student_id] = setTimeout(() => {
+        fetch("/academicHUB/backend/update_attendance.php", {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: `student_id=${student_id}&subject_id=${subject_id}&attendance=${attendance}`
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === "success") {
+                console.log("Attendance updated successfully!");
+            } else {
+                alert("Error updating attendance: " + data.message);
+            }
+        })
+        .catch(error => console.error("Fetch error:", error));
+    }, 500);
+}
+ 
+
+    </script>
+    <script src="manage_students.js"></script>
+</body>
+</html>

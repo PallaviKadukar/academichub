@@ -1,0 +1,54 @@
+Array
+(
+    [student_id] => 2
+    [subject_id] => 1
+    [internals] => 12
+)
+Array
+(
+    [student_id] => 3
+    [subject_id] => 1
+    [internals] => 12
+    [externals] => NULL
+    [practicals] => 50
+)
+Array
+(
+    [student_id] => 2
+    [subject_id] => 4
+    [internals] => 21
+    [externals] => NULL
+    [practicals] => NULL
+)
+Array
+(
+    [student_id] => 5
+    [subject_id] => 2
+    [internals] => 20
+    [externals] => 75
+    [practicals] => 50
+)
+Array
+(
+    [student_id] => 3
+    [subject_id] => 1
+    [internals] => 12
+    [externals] => 12
+    [practicals] => 50
+)
+Array
+(
+    [student_id] => 5
+    [subject_id] => 2
+    [internals] => 20
+    [externals] => 75
+    [practicals] => 50
+)
+Array
+(
+    [student_id] => 8
+    [subject_id] => 6
+    [internals] => 20
+    [externals] => 35
+    [practicals] => NULL
+)

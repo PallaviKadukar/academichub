@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enter Marks</title>
+  
+    <script defer src="enter_marks.js"></script>
+<style>
+    body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    background-color: #121212;
+    color: #ffffff;
+    background: url('images/hero.png') no-repeat center center fixed;
+    background-size: cover;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+    z-index: -1;
+}
+
+.container {
+    width: 50%;
+    margin: 50px auto;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+h2 {
+    color: #4db8ff;
+    margin-bottom: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+th, td {
+    padding: 10px;
+    border-bottom: 1px solid #4db8ff;
+    text-align: left;
+}
+
+th {
+    color: #4db8ff;
+}
+
+input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #4db8ff;
+    border-radius: 5px;
+    background-color: transparent;
+    color: white;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #4db8ff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #3597d4;
+}
+
+/* ===== Back Arrow ===== */
+.back-arrow {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-size: 24px;
+    color: #4db8ff;
+    text-decoration: none;
+    padding: 8px 12px;
+    border-radius: 50%;
+    transition: 0.3s ease-in-out;
+}
+
+.back-arrow:hover {
+    background: rgba(255, 255, 255, 0.2);
+    color: #00aaff;
+    transform: scale(1.1);
+}
+</style>
+</head>
+<body>
+    <a href="faculty_dashboard.html" class="back-arrow">⟵</a>
+    <div class="container">
+        <h2>Enter Marks for <span id="studentName"></span></h2>
+        <table>
+            <tr>
+                <th>Student Name</th>
+                <td id="studentNameCell"></td>
+            </tr>
+            <tr>
+                <th>Internals (20)</th>
+                <td><input type="number" id="internals" min="0" max="20"></td>
+            </tr>
+            <tr>
+                <th>Externals (75)</th>
+                <td><input type="number" id="externals" min="0" max="75"></td>
+            </tr>
+            <tr>
+                <th>Practicals (50)</th>
+                <td><input type="number" id="practicals" min="0" max="50"></td>
+            </tr>
+        </table>
+        <button id="saveMarks">Save Marks</button>
+    </div>
+
+
+    <script>
+       
+    </script>
+</body>
+</html>

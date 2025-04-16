@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faculty Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Back Arrow */
+        .back-arrow {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            font-size: 22px;
+            text-decoration: none;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 50%;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .back-arrow:hover {
+            background: rgba(255, 255, 255, 0.2);
+            color: #00aaff;
+        }
+
+        /* Logout Button */
+        .logout-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 16px;
+            text-decoration: none;
+            color: white;
+            background: rgba(255, 0, 0, 0.8);
+            padding: 8px 15px;
+            border-radius: 5px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .logout-btn:hover {
+            background: red;
+            color: white;
+        }
+
+        /* Welcome Message */
+    
+ 
+/* Welcome Message Styling */
+.welcome-msg {
+    text-align: center; /* Center text horizontally */
+    font-size: 26px;
+    font-weight: 600;
+    color: white;
+    margin-top: 20px; /* Adjust this value to move it further down */
+}
+
+
+        /* Assigned Subjects Section */
+        .assigned-subjects-section {
+            width: 85%;
+            margin: 50px auto;
+            padding: 20px;
+            border-radius: 8px;
+            backdrop-filter: blur(8px);
+            color: white;
+            text-align: center;
+        }
+
+        /* Table Styling */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 8px;
+            overflow: hidden;
+            color: white;
+        }
+
+        .data-table th, 
+        .data-table td {
+            padding: 14px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .data-table th {
+            background: rgba(0, 150, 255, 0.4);
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .data-table tbody tr {
+            font-size: 16px;
+            transition: background 0.3s ease;
+        }
+
+        .data-table tbody tr:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Back Arrow -->
+    <a href="home.html" class="back-arrow">⟵ </a>
+
+    <!-- Logout Button -->
+    <a href="./backend/logout_faculty.php" class="logout-btn">Logout</a>
+
+    <!-- Welcome Message -->
+    <div class="welcome-container">
+        <h2 id="facultyName" class="welcome-msg">Welcome Faculty</h2>
+    </div>
+        
+
+
+    <div class="assigned-subjects-section">
+        <h3>Assigned Subjects</h3>
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Subject</th>
+                    <th>Semester</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="subjectList">
+                <!-- Dynamic rows will be inserted here -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        // Extract faculty_name from URL and update the heading
+        const urlParams = new URLSearchParams(window.location.search);
+        const facultyName = urlParams.get('faculty_name');
+
+        if (facultyName) {
+            document.getElementById('facultyName').textContent = decodeURIComponent(facultyName);
+        }
+
+        // Function to load assigned subjects
+        function loadAssignedSubjects() {
+            fetch('backend/fetch_faculty_subjects.php')
+                .then(response => response.json())
+                .then(data => {
+                    console.log("✅ Assigned Subjects:", data);
+
+                    let subjectTable = document.getElementById("subjectList");
+                    if (!subjectTable) {
+                        console.error("❌ Subject table not found!");
+                        return;
+                    }
+
+                    subjectTable.innerHTML = ""; // Clear previous content
+
+                    if (Array.isArray(data) && data.length > 0) {
+                        data.forEach(sub => {
+                            let row = document.createElement("tr");
+                            row.innerHTML = `
+                                <td>${sub.subject_name}</td>
+                                <td>Semester ${sub.semester}</td>
+                                <td>
+                                    <a href="manage_students.html?subject_id=${sub.subject_id}&subject_name=${encodeURIComponent(sub.subject_name)}" 
+                                        class="btn btn-sm btn-primary">
+                                        Manage
+                                    </a>
+                                </td>
+                            `;
+                            subjectTable.appendChild(row);
+                        });
+                    } else {
+                        subjectTable.innerHTML = "<tr><td colspan='3'>No assigned subjects found.</td></tr>";
+                    }
+                })
+                .catch(error => console.error("❌ Error loading assigned subjects:", error));
+        }
+
+        // Load assigned subjects on page load
+        document.addEventListener("DOMContentLoaded", loadAssignedSubjects);
+    
+    
+        document.addEventListener("DOMContentLoaded", function () {
+    fetch('backend/get_faculty_details.php?t=' + new Date().getTime())
+        .then(response => response.json())
+        .then(data => {
+            if (data.faculty_name) {
+                document.getElementById("facultyName").textContent = "Welcome " + data.faculty_name;
+            } else {
+                document.getElementById("facultyName").textContent = "Welcome Faculty";
+            }
+        })
+        .catch(error => console.error("❌ Error loading faculty name:", error));
+});
+
+    </script>
+
+</body>
+</html>

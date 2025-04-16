@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* ===== Global Background & Dark Theme ===== */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    background: url('images/hero.png') no-repeat center center fixed;
+    background-size: cover;
+    color: white;
+}
+
+/* Overlay Effect for Readability */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Dark overlay */
+    backdrop-filter: blur(5px);
+    z-index: -1;
+}
+
+/* ===== Back Arrow ===== */
+.back-arrow {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-size: 22px;
+    color: #4db8ff;
+    text-decoration: none;
+    padding: 8px 12px;
+    border-radius: 50%;
+    transition: 0.3s ease-in-out;
+}
+
+.back-arrow:hover {
+    background: rgba(255, 255, 255, 0.2);
+    color: #00aaff;
+    transform: scale(1.1);
+}
+
+/* ===== Dashboard Container ===== */
+.dashboard-container {
+    width: 90%;
+    margin: auto;
+    padding: 20px;
+}
+
+/* ===== Admin Header ===== */
+.admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 5%;
+    background: rgba(25, 25, 45, 0.85);
+    backdrop-filter: blur(8px);
+    border-radius: 12px;
+    margin-bottom: 40px;
+    box-shadow: 0 4px 15px rgba(0, 170, 255, 0.3);
+}
+
+.admin-header h1 {
+    font-size: 2.2rem;
+    color: #4db8ff;
+    margin: 0;
+}
+
+/* ===== Logout Button ===== */
+.logout-btn {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: white;
+    background: linear-gradient(90deg, #ff416c, #ff4b2b);
+    padding: 10px 18px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: 0.3s ease-in-out;
+    box-shadow: 0 3px 10px rgba(255, 50, 100, 0.4);
+}
+
+.logout-btn:hover {
+    background: linear-gradient(90deg, #d70040, #b50035);
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(255, 50, 100, 0.6);
+}
+
+/* ===== Admin Sections (Glass Effect) ===== */
+.admin-section {
+    background: rgba(25, 25, 45, 0.85);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0, 170, 255, 0.3);
+    text-align: center;
+    backdrop-filter: blur(8px);
+    transition: all 0.3s ease-in-out;
+    margin-bottom: 35px;
+}
+
+.admin-section:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 25px rgba(0, 170, 255, 0.5);
+}
+
+.admin-section h2 {
+    font-size: 2rem;
+    color: #4db8ff;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+
+/* ===== Forms & Inputs ===== */
+form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    align-items: center;
+    justify-content: center;
+}
+
+input, select {
+    flex: 1;
+    max-width: 320px;
+    padding: 12px;
+    border-radius: 8px;
+    border: none;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    font-size: 1rem;
+    transition: 0.3s ease-in-out;
+    text-align: center;
+}
+
+/* Styled Dropdowns */
+select {
+    appearance: none;
+    cursor: pointer;
+}
+
+/* Placeholder style for first option */
+select option[value=""][disabled] {
+    color: rgba(255, 255, 255, 0.6);
+    font-style: italic;
+}
+
+/* Dropdown Open State */
+select:focus {
+    background: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 0 8px rgba(0, 170, 255, 0.7);
+    outline: none;
+}
+
+/* Dropdown Options */
+select option {
+    background: #121212;
+    color: white;
+    padding: 10px;
+}
+
+/* Hover effect for dropdown */
+select:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+input:focus {
+    background: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 0 8px rgba(0, 170, 255, 0.7);
+    outline: none;
+}
+
+/* ===== Buttons ===== */
+button {
+    padding: 12px 20px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: white;
+    background: linear-gradient(90deg, #007bff, #00aaff);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s ease-in-out;
+    box-shadow: 0 3px 10px rgba(0, 170, 255, 0.4);
+}
+
+button:hover {
+    background: linear-gradient(90deg, #0056b3, #0088cc);
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(0, 170, 255, 0.6);
+}
+
+/* ===== Tables ===== */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: rgba(255, 255, 255, 0.1);
+    margin-top: 20px;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+th, td {
+    padding: 14px;
+    text-align: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    font-size: 1rem;
+}
+
+th {
+    background: #005577;
+    color: white;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+}
+
+tr:hover {
+    background: rgba(0, 170, 255, 0.15);
+    transition: 0.3s ease-in-out;
+}
+
+/* ===== Responsive Design ===== */
+@media (max-width: 768px) {
+    .dashboard-container {
+        width: 100%;
+        padding: 10px;
+    }
+
+    form {
+        flex-direction: column;
+    }
+
+    input, select, button {
+        width: 100%;
+    }
+}
+
+    </style>
+</head>
+<body>
+
+    <div class="dashboard-container">
+
+        <!-- Welcome Message & Logout -->
+        <header class="admin-header">
+            <h1>Welcome, Admin!</h1>
+            <!-- Back Arrow -->
+    
+
+            <a href="backend/logout_admin.php" class="logout-btn">Logout</a>
+        </header>
+
+        <div class="main-content">
+            <a href="home.html" class="back-arrow">⟵</a>
+            <!-- Add Subject -->
+            <section id="add-subject" class="admin-section">
+                <h2>Add a New Subject</h2>
+                <form action="backend/add_subject.php" method="POST" id="subjectForm">
+                    <input type="text" name="subject_name" placeholder="Subject Name" required>
+                    <select name="semester" required>
+                        <option value="" disabled selected>Select Semester</option>
+                        <option value="1">Semester 1</option>
+                        <option value="2">Semester 2</option>
+                        <option value="3">Semester 3</option>
+                        <option value="4">Semester 4</option>
+                        <option value="5">Semester 5</option>
+                        <option value="6">Semester 6</option>
+                    </select>
+                    <button type="submit">Add Subject</button>
+                </form>
+                <p id="subjectMessage"></p>
+            </section>
+
+            <!-- Subject List -->
+            <section id="subject-list" class="admin-section">
+                <h2>Existing Subjects</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Subject</th>
+                            <th>Semester</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="subjectList">
+                        <tr><td colspan="3">Loading...</td></tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Add Faculty -->
+            <section id="add-faculty" class="admin-section">
+                <h2>Add a New Faculty</h2>
+                <form action="backend/add_faculty.php" method="POST" id="facultyForm">
+                    <input type="text" name="faculty_name" placeholder="Faculty Name" required>
+                    <input type="email" name="faculty_email" placeholder="Faculty Email" required>
+                    <input type="password" name="faculty_password" placeholder="Temporary Password" required>
+                    <button type="submit">Add Faculty</button>
+                </form>
+                <p id="facultyMessage"></p>
+            </section>
+
+            <!-- Faculty List -->
+            <section id="faculty-list" class="admin-section">
+                <h2>Faculty List</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="facultyList">
+                        <tr><td colspan="3">Loading...</td></tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Assign Faculty -->
+<section id="assign-faculty" class="admin-section">
+    <h2>Assign Faculty to Subject</h2>
+    <form action="backend/assign_faculty.php" method="POST" id="assignForm">
+
+        <!-- Faculty Dropdown -->
+        <label for="facultySelect">Select Faculty:</label>
+        <select name="faculty_id" id="facultySelect" class="styled-dropdown" required>
+            <option value="" disabled selected>Select Faculty</option>
+        </select>
+
+        <!-- Subjects Dropdown (Single Selection) -->
+        <label for="subjectSelect">Select Subject:</label>
+        <select name="subject_id" id="subjectSelect" class="styled-dropdown" required>
+            <option value="" disabled selected>Select Subject</option>
+        </select>
+
+        <button type="submit">Assign</button>
+    </form>
+    <p id="assignMessage"></p>
+</section>
+
+
+            <!-- Assigned Faculty List -->
+            <section id="assigned-list" class="admin-section">
+                <h2>Faculty & Assigned Subjects</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Faculty Name</th>
+                            <th>Subjects</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="assignedFacultyList">
+                        <tr><td colspan="3">Loading...</td></tr>
+                    </tbody>
+                </table>
+            </section>
+
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+
+
+
+
+        <script>
+            function loadSubjects() {
+                fetch('backend/fetch_subjects.php')
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log("✅ Subjects Received:", data); // Debugging
+            
+                        let subjectTable = document.getElementById("subjectList");
+                        let subjectDropdown = document.getElementById("subjectSelect");
+            
+                        if (!subjectTable || !subjectDropdown) {
+                            console.error("❌ subjectList table or subjectSelect dropdown not found!");
+                            return;
+                        }
+            
+                        // Clear previous content
+                        subjectTable.innerHTML = "";
+                        subjectDropdown.innerHTML = '<option value="" disabled selected>Select Subject</option>';
+            
+                        if (Array.isArray(data) && data.length > 0) {
+                            data.forEach(sub => {
+                                // ✅ Add to table
+                                let row = document.createElement("tr");
+                                row.innerHTML = `
+                                    <td>${sub.subject_name}</td>
+                                    <td>Semester ${sub.semester}</td>
+                                    <td>
+                                        <button class="btn btn-danger btn-sm" onclick="deleteSubject(${sub.subject_id})">Delete</button>
+                                    </td>
+                                `;
+                                subjectTable.appendChild(row);
+            
+                                // ✅ Add to dropdown
+                                let option = document.createElement("option");
+                                option.value = sub.subject_id;
+                                option.textContent = `${sub.subject_name} (Sem ${sub.semester})`;
+                                subjectDropdown.appendChild(option);
+                            });
+                        } else {
+                            subjectTable.innerHTML = "<tr><td colspan='3'>No subjects found.</td></tr>";
+                            subjectDropdown.innerHTML = '<option value="" disabled>No subjects available</option>';
+                        }
+                    })
+                    .catch(error => console.error("❌ Error loading subjects:", error));
+            }
+            
+            // 🚀 Load subjects on page load
+            document.addEventListener("DOMContentLoaded", loadSubjects);
+              
+        
+            
+            function loadFaculty() {
+    fetch('backend/fetch_faculty.php')
+        .then(response => response.json())
+        .then(data => {
+            console.log("✅ Faculty Received:", data); // Debugging
+
+            let facultyTable = document.getElementById("facultyList");
+
+            if (!facultyTable) {
+                console.error("❌ Faculty table not found!");
+                return;
+            }
+
+            facultyTable.innerHTML = ""; // Clear previous content
+
+            if (Array.isArray(data) && data.length > 0) {
+                data.forEach(fac => {
+                    let row = document.createElement("tr");
+                    row.innerHTML = `
+                        <td>${fac.faculty_name || 'No Name'}</td>
+                        <td>${fac.faculty_email || 'No Email'}</td>
+                        <td>
+                            <button class="btn btn-danger btn-sm" onclick="deleteFaculty(${fac.faculty_id})">Delete</button>
+                        </td>
+                    `;
+                    facultyTable.appendChild(row);
+                });
+            } else {
+                facultyTable.innerHTML = "<tr><td colspan='3'>No faculty found.</td></tr>";
+            }
+        })
+        .catch(error => console.error("❌ Error loading faculty:", error));
+}
+
+
+            function deleteSubject(subject_id) {
+                if (confirm("Are you sure you want to delete this subject?")) {
+                    fetch(`backend/delete_subject.php?id=${subject_id}`, { method: "GET" })
+                        .then(response => response.json())
+                        .then(data => {
+                            console.log("✅ Delete Response:", data); // Debugging
+            
+                            if (data.status === "success") {
+                                alert(data.message);
+                                loadSubjects(); // Refresh the subject list after deletion
+                            } else {
+                                alert("❌ Error deleting subject: " + data.message);
+                            }
+                        })
+                        .catch(error => console.error("❌ Error in deleteSubject:", error));
+                }
+            }
+
+            function deleteFaculty(faculty_id) {
+                if (confirm("Are you sure you want to delete this faculty?")) {
+                    fetch(`backend/delete_faculty.php?id=${faculty_id}`, { method: "GET" })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.status === "success") {
+                                alert(data.message);
+                                loadFaculty(); // Refresh the faculty list after deletion
+                            } else {
+                                alert("❌ Error deleting faculty: " + data.message);
+                            }
+                        })
+                        .catch(error => console.error("❌ Error:", error));
+                }
+            }
+             
+            function loadFacultyDropdown() {
+    fetch('backend/fetch_faculty.php')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Network response was not ok");
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log("✅ Faculty Data:", data);
+            const facultySelect = document.getElementById('facultySelect');
+
+            if (!facultySelect) {
+                console.error("❌ Faculty dropdown element not found!");
+                return;
+            }
+
+            facultySelect.innerHTML = '<option value="" disabled selected>Select Faculty</option>';
+
+            if (Array.isArray(data) && data.length > 0) {
+                data.forEach(faculty => {
+                    let option = document.createElement('option');
+                    option.value = faculty.faculty_id;
+                    option.textContent = faculty.faculty_name;
+                    facultySelect.appendChild(option);
+                });
+            } else {
+                facultySelect.innerHTML = '<option value="" disabled>No faculty available</option>';
+            }
+        })
+        .catch(error => console.error('❌ Error fetching faculty:', error));
+}
+
+
+            
+            
+function loadAssignedFaculty() {
+    fetch('backend/fetch_assigned_faculty.php')
+        .then(response => response.json())
+        .then(data => {
+            console.log("✅ Assigned Faculty Data:", data);
+
+            let assignedTable = document.getElementById("assignedFacultyList");
+            assignedTable.innerHTML = "";
+
+            if (Array.isArray(data) && data.length > 0) {
+                data.forEach(entry => {
+                    let row = document.createElement("tr");
+                    row.innerHTML = `
+                        <td>${entry.faculty_name}</td>
+                        <td>${entry.subject_name}</td>
+                        <td>
+                            <button class="btn btn-danger btn-sm" onclick="deleteAssignment(${entry.id})">Delete</button>
+                        </td>
+                    `;
+                    assignedTable.appendChild(row);
+                });
+            } else {
+                assignedTable.innerHTML = "<tr><td colspan='3'>No assignments found.</td></tr>";
+            }
+        })
+        .catch(error => console.error("❌ Error loading assigned faculty:", error));
+}
+
+                           
+                function deleteAssignment(id) {
+                    if (confirm("Are you sure you want to delete this assignment?")) {
+                        fetch('backend/delete_assigned_faculty.php', {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/x-www-form-urlencoded"
+                            },
+                            body: `id=${id}`
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.status === "success") {
+                                alert(data.message);
+                                loadAssignedFaculty(); // Reload the table after deletion
+                            } else {
+                                alert("❌ Error deleting assignment: " + data.message);
+                            }
+                        })
+                        .catch(error => console.error("❌ Error:", error));
+                    }
+                }
+            
+                // ✅ Load assigned faculty & subjects on page load
+                document.addEventListener("DOMContentLoaded", loadAssignedFaculty);
+            
+              
+            
+            
+            
+            
+            
+
+            // ✅ Load subjects & faculty when the page loads
+            window.onload = function () {
+                loadSubjects();
+                loadFaculty();
+                loadFacultyDropdown();
+                
+            };
+        </script>
+    </div>
+</body>
+</html>

@@ -1,0 +1,365 @@
+/* Dark theme styles */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    background-color: #121212; /* Dark background */
+    color: #ffffff;
+}
+
+
+/* Global Background */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    background: url('images/hero.png') no-repeat center center fixed;
+    background-size: cover;
+}
+
+/* Overlay Effect for Readability */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Dark overlay */
+    backdrop-filter: blur(5px); /* Blur effect */
+    z-index: -1;
+}
+
+/* Hero Section */
+.hero-section {
+    
+    text-align: center;
+    padding: 100px 20px;
+    background-image: url('images/hero-bg.jpg'); /* Ensure the image exists */
+    background-size: cover;
+    background-position: center;
+    backdrop-filter: blur(5px);
+}
+
+.hero-title {
+    font-size: 3.5rem;
+    margin-bottom: 10px;
+    color: #4a90e2;
+}
+
+.hero-description {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+}
+
+.hero-subquote {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+    font-style: italic;
+}
+
+.hero-buttons .btn {
+    display: inline-block;
+    margin: 10px;
+    padding: 10px 20px;
+    background-color: #4a90e2;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+.hero-buttons .btn:hover {
+    background-color: #356bbd;
+}
+
+
+/* Key Features Section */
+.features {
+   
+    text-align: center;
+    padding: 60px 20px;
+}
+
+/* Section Title */
+.features h2 {
+    font-size: 28px;
+    margin-bottom: 40px;
+    color: #4db8ff; /* Light blue accent */
+    animation: fadeIn 1s ease-in-out;
+}
+
+/* Features Container */
+.features-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+/* Feature Cards */
+.feature-card {
+    background-color: #222; /* Dark card background */
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(77, 184, 255, 0.2); /* Subtle glow */
+    text-align: center;
+    width: 300px;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+/* Feature Card Hover Effect */
+.feature-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 6px 15px rgba(77, 184, 255, 0.4);
+}
+
+/* Feature Images */
+.feature-image {
+    width: 100%; 
+    max-width: 260px; /* Prevents images from becoming too large */
+    height: auto; /* Maintains aspect ratio */
+    max-height: 170px; /* Keeps all images visually balanced */
+    object-fit: contain; /* Ensures the entire image is visible without cropping */
+    display: block;
+    margin: 0 auto 15px; /* Centers image and adds space below */
+    border-radius: 8px;
+    opacity: 0.9;
+    transition: opacity 0.3s ease-in-out;
+}
+
+/* Image Hover Effect */
+.feature-card:hover .feature-image {
+    opacity: 1;
+}
+
+/* Feature Title */
+.feature-card h3 {
+    font-size: 20px;
+    color: #4db8ff;
+    margin-bottom: 10px;
+}
+
+/* Feature Description */
+.feature-card p {
+    font-size: 14px;
+    opacity: 0.8;
+}
+
+/* Fade-in Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 900px) {
+    .features-container {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+
+/* About Us Section */
+/* General Styles */
+body {
+    background-color: #121212;
+    color: #ffffff;
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* About Section */
+.about-section {
+    padding: 50px 20px;
+}
+
+.container {
+    max-width: 1100px;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+/* Text Content */
+.about-content {
+    flex: 1;
+    padding-right: 30px;
+}
+
+.about-content h2 {
+    font-size: 2rem;
+    color: #00aaff;
+    margin-bottom: 15px;
+}
+
+.about-content p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+/* Image */
+.about-image {
+    flex: 1;
+    text-align: center;
+}
+
+.about-image img {
+    max-width: 100%;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.2);
+    transition: transform 0.3s ease-in-out;
+}
+
+.about-image img:hover {
+    transform: scale(1.05);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .about-content {
+        padding-right: 0;
+    }
+
+    .about-image img {
+        max-width: 80%;
+    }
+}
+
+
+/* Announcements Section */
+/* General Styles */
+body {
+    background-color: #121212;
+    color: #ffffff;
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* Faculty Section */
+.faculty-section {
+    padding: 50px 20px;
+    text-align: center;
+}
+
+.section-title {
+    font-size: 2rem;
+    color: #00aaff;
+    margin-bottom: 20px;
+}
+
+/* Faculty Grid */
+.faculty-grid {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+/* Faculty Cards */
+.faculty-card {
+    background: #1e1e1e;
+    padding: 20px;
+    border-radius: 10px;
+    width: 250px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.faculty-card:hover {
+    transform: scale(1.05);
+}
+
+/* Faculty Images */
+.faculty-card img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 10px;
+    border: 3px solid #00aaff;
+}
+
+/* Faculty Text */
+.faculty-card h3 {
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+}
+
+.faculty-card p {
+    font-size: 1rem;
+    color: #cccccc;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .faculty-grid {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+/* Footer Styles */
+.footer {
+    background: rgba(0, 0, 0, 0.8); /* Dark semi-transparent background */
+    color: #fff;
+    padding: 2rem 0;
+    text-align: center;
+    backdrop-filter: blur(10px);
+}
+
+.footer-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    padding: 1rem 0;
+}
+
+.footer-logo h2 {
+    font-size: 1.8rem;
+    color: #00bfff;
+}
+
+.footer-contact, .footer-location {
+    margin-top: 1rem;
+}
+
+.footer-contact h3, .footer-location h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.8rem;
+    color: #00bfff;
+}
+
+.footer-contact p, .footer-location p {
+    margin: 0.4rem 0;
+    font-size: 0.9rem;
+}
+
+.footer-bottom {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    font-size: 0.9rem;
+}
+
+
+

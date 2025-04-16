@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Sign In</title>
+   
+  
+    <style>
+    /* ===== Global Background & Dark Theme ===== */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    background: url('images/hero.png') no-repeat center center fixed;
+    background-size: cover;
+    color: white;
+}
+
+/* Overlay Effect for Readability */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Dark overlay */
+    backdrop-filter: blur(5px);
+    z-index: -1;
+}
+
+/* ===== Back Arrow ===== */
+.back-arrow {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-size: 24px;
+    color: #4db8ff;
+    text-decoration: none;
+    padding: 10px 15px;
+    border-radius: 50%;
+    transition: 0.3s ease-in-out;
+}
+
+.back-arrow:hover {
+    background: rgba(255, 255, 255, 0.2);
+    color: #00aaff;
+    transform: scale(1.1);
+}
+
+/* ===== Centered Form Container ===== */
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 20px;
+    position: relative;
+}
+
+/* ===== Form Box ===== */
+.form-box {
+    width: 420px;
+    padding: 35px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    backdrop-filter: blur(10px);
+    transition: 0.3s ease-in-out;
+}
+
+.form-box:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0, 170, 255, 0.5);
+}
+
+/* ===== Form Heading ===== */
+h2 {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 25px;
+    color: #4db8ff;
+}
+
+/* ===== Input Fields ===== */
+.form-label {
+    font-size: 15px;
+    font-weight: 600;
+    color: #ddd;
+    display: block;
+    text-align: left;
+    margin-bottom: 5px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 14px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    font-size: 16px;
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
+    text-align: center;
+    transition: 0.3s ease-in-out;
+}
+
+.form-control::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 14px;
+    text-align: center;
+}
+
+.form-control:focus {
+    border-color: #4db8ff;
+    background: rgba(255, 255, 255, 0.2);
+    outline: none;
+    box-shadow: 0 0 10px rgba(0, 170, 255, 0.5);
+}
+
+/* ===== Sign In Button ===== */
+.btn-primary {
+    width: 100%;
+    padding: 14px;
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    margin-top: 15px;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #0056b3, #004494);
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(0, 91, 187, 0.4);
+}
+
+/* ===== Register Link ===== */
+.text-primary {
+    color: #4db8ff;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.3s ease-in-out;
+}
+
+.text-primary:hover {
+    color: #00aaff;
+    text-decoration: underline;
+}
+
+/* ===== Responsive Design ===== */
+@media (max-width: 768px) {
+    .form-box {
+        width: 90%;
+        padding: 25px;
+    }
+
+    .form-control {
+        font-size: 14px;
+    }
+
+    .btn-primary {
+        font-size: 16px;
+    }
+}
+
+    </style>
+</head>
+<body>
+   
+    <div class="container d-flex justify-content-center align-items-center min-vh-100">
+        
+        <div class="card p-4 shadow-lg form-box">
+            <a href="home.html" class="back-arrow">⟵</a>
+            <h2 class="text-center mb-4">Student Sign In</h2>
+          
+            <form id="signInForm" action="backend/student_signin.php" method="POST">
+
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required>
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Sign In</button>
+            </form>
+            <p class="text-center mt-3">Don't have an account? 
+                <a href="studentregister.html" class="text-primary">Create Now</a>
+            </p>
+        </div>
+    </div>
+
+
+
+    <!-- JavaScript to handle form validation -->
+    <script>
+        document.getElementById('signInForm').addEventListener('submit', function(e) {
+            e.preventDefault(); // Prevent form submission for validation
+
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            // Basic email validation
+            const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+            if (!emailPattern.test(email)) {
+                alert('Please enter a valid email address');
+                return;
+            }
+
+            // Check if password is provided
+            if (password.trim() === '') {
+                alert('Please enter your password');
+                return;
+            }
+
+            // If everything is valid, submit the form
+            this.submit();
+        });
+    </script>
+</body>
+</html>
+
+
